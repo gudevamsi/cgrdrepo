@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<style>
+			table{
+				margin:10px;  border-spacing: 0px;font-size: 10pt;font-family: arial,helvetica,sans-serif;cellpadding:"3px";
+			}
+			th{
+				text-align: center; color: #000000; font-size: 12px; font-family: Arial; background-color: #6fa8dc; border-color:#000000; width: 0px;"
+			}
+			td{
+    			padding: 3px;
+   		 	}
+   		 	tr.even{background-color:#F0F0F0;}
+   		 	tr.odd{background-color:#DFDFDF;}
+		</style>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<script type="text/javascript">
+			function enableOrDisableButton(id){
+				var ele = document.getElementById('proj_'+id);
+				document.getElementById('trainingid').value=id;
+				<% if(userrole == 'ADMIN') { %>					
+					//alert(userid);
+					if(ele.checked){
+						dijit.byId('modifybtn').setAttribute('disabled', false);
+						dijit.byId('deletebtn').setAttribute('disabled', false);
+						dijit.byId('attendencebtn').setAttribute('disabled', false);
+						dijit.byId('viewbtn').setAttribute('disabled', false);
+					}
+				<% } else{ %>
+					dijit.byId('viewbtn').setAttribute('disabled', false);
+				<% }%>
+			}
+			function submitform(action){
+				//alert(action);
+				var frm = document.getElementById('myform');
+				document.getElementById('action').value=action;
+				if(action=='modify'){
+					frm.action="/modifytraining";
+				}
+				else if(action=='delete'){
+					frm.action='/viewtraining';
+				}
+				else if(action=='view'){
+					frm.action='/viewtraining';
+				}
+				else if(action=='attendence'){
+					frm.action='/viewtrainingformanager';
+				}
+				else if(action=='viewformgr'){
+					frm.action='/viewtrainingformanager';
+				}
+				frm.submit();
+			}
+		</script>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">
+		<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<div  style="line-height: 60px;height:65px;width:20%;align:left;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: left;    margin-top: 5px;    margin-left: 10px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > All Trainings</div>
+			<input type="hidden" id="trainingid" name="trainingid" value=""/>
+			<input type="hidden" id="action" name="action" value=""/>
+			<table style="margin:10px;  border-spacing: 0px;font-size: 10pt;font-family: arial,helvetica,sans-serif;width: 50%;height:12%">
+				<tr>
+					<th> &nbsp; </th>
+					<th> Training Name </th>
+					<th> Scheduled Date </th>
+					<th> Duration </th>
+					<th> Open For Nomination </th>
+				</tr>
+				<% if(typeof trainings != 'undefined') {%>
+					<% if(trainings.length == 0) {%>
+						<tr>
+							<td align="center" colspan="4">No Trainings Found</td>							
+ 						</tr>
+ 					<% }else{ %>
+						<% for(var i=0; i<trainings.length; i++){ %>
+					
+						<%if(i%2){%>
+						<tr class="even">
+						<%}else{%>
+						<tr class="odd">
+						<%}%>
+					
+							<td align="right"> <input type="radio" id="proj_<%=trainings[i].trainingid%>" name="radio" onchange="enableOrDisableButton('<%=trainings[i].trainingid%>', '<%=trainings[i].trainingid%>')" /> </td>
+							<td align="left"> <%=trainings[i].trainingname%> </td>
+ 							<td align="left"> <%=trainings[i].scheduleddate%></td>
+ 							<td align="left"> <%=trainings[i].duration %></td>
+ 							<td align="left">
+ 							<%=	trainings[i].openForNomination%>
+ 								<% if(trainings[i].openForNomination == 'Y') { %>
+ 									Yes
+ 								<% } else { %>
+ 									No
+ 								<% } %>
+ 							</td>
+ 						</tr>
+					<% } %>
+				  <% } %>
+				<% } %>
+				<tr class="t1" >
+					<td align="right" height="7%"> &nbsp; </td>
+					<td align="left"  height="7%">&nbsp;  </td>
+				</tr>
+				<tr class="t1">
+					<td align="center" colspan="4"> 
+						<% if(userrole == 'ADMIN'){ %>
+							<button data-dojo-type="dijit/form/Button" type="button" id="modifybtn" name="Modify" value="Modify" disabled onclick="submitform('modify')">Modify</button> &nbsp;
+							<button data-dojo-type="dijit/form/Button" type="button" id="viewbtn" name="View" value="View" disabled onclick="submitform('view')">View</button> &nbsp;
+							<button data-dojo-type="dijit/form/Button" type="button" id="deletebtn" name="Delete" value="Delete" disabled onclick="submitform('delete')">Delete</button>
+							<button data-dojo-type="dijit/form/Button" type="button" id="attendencebtn" name="Attendence" value="Attendence" disabled onclick="submitform('attendence')">Attendence</button>
+						<% } else if(userrole == 'MANAGER') { %>
+							<button data-dojo-type="dijit/form/Button" type="button" id="viewbtn" name="View" value="View" disabled onclick="submitform('viewformgr')">View</button> &nbsp;
+						<% } else {%>
+							<button data-dojo-type="dijit/form/Button" type="button" id="viewbtn" name="View" value="View" disabled onclick="submitform('view')">View</button> &nbsp;
+						<% } %>						
+						<% if(userrole == 'USER') { %>
+							<button data-dojo-type="dijit/form/Button" type="button" id="viewbtn" name="View" value="View"  onclick="submitform('view')">View</button> &nbsp;
+						<% } %>
+					</td>
+				</tr>	
+			</table>
+		</form>
+	</body>
+</html>

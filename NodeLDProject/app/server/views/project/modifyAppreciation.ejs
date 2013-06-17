@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style type="text/css">
+		table{
+ 			margin:30px;   
+		}
+		td{
+    		padding: 4px;
+   		 }
+		</style>
+	</head>
+	<body class="soria">
+		<form method="POST" action="/modifyAppreciation" dojoType="dijit.form.Form" id="myform">
+			<% if(typeof oldProjJson != 'undefined') {%>
+				<input type="hidden" id="apprid" name="apprid" value="<%=oldProjJson.apprid%>"/>
+				<input type="hidden" id="old_apprdesc" name="old_apprdesc" value="<%=oldProjJson.apprdesc%>"/>
+				<input type="hidden" id="old_apprdate" name="old_apprdate" value="<%=oldProjJson.apprdate%>"/>
+				<input type="hidden" id="old_apprby" name="old_apprby" value="<%=oldProjJson.apprby%>"/>
+			<% } else { %>
+				<input type="hidden" id="apprid" name="apprid" value="<%=appreciations.id%>"/>
+				<input type="hidden" id="old_apprdesc" name="old_apprdesc" value="<%=appreciations.APPRECIATOIN_DETAILS%>"/>
+				<input type="hidden" id="old_apprdate" name="old_apprdate" value="<%=appreciations.APPRECIATIO_DATE%>"/>
+				<input type="hidden" id="old_apprby" name="old_apprby" value="<%=appreciations.APPRECIATION_FROM%>"/>
+				
+			<% } %>
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<div  style="line-height: 60px;height:65px;width:20%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" >Modify Appreciations</div>
+			
+			<div style="line-height: 12px;height:12px;width:14%;font-size: 12px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;    margin-top: 5px;    margin-left: 15px;"  id="globalerror_err"></div>
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+				<tr class="t1">
+					<td align="left"> Appreciation By * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true" id="apprby" name="apprby"/></td>
+					<td id="apprby_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Appreciation Description * </td>
+					<td><textarea id="apprdesc" name="apprdesc" rows="10" cols="50" data-dojo-type="dijit/form/Textarea" data-dojo-props="trim:true" style="width:400px; height: 100px"></textarea></td>
+					<td id="apprdesc_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Appreciation Date * </td>
+					<td> <input type="text" name="apprdate" id="apprdate" value="" data-dojo-type="dijit/form/DateTextBox" 
+					data-dojo-props="trim:true" constraints="{datePattern:'yyyy-MM-dd'}" invalidMessage="Invalid date yyyy-MM-dd" promptMessage="yyyy-MM-dd"/>  </td>
+					<td id="apprdate_err"></td>
+				</tr>
+				
+				
+				<tr class="t1">
+					<td align="right"> <button data-dojo-type="dijit/form/Button" type="submit" id="submitbutton" name="submitbutton" value="Submit">Modify</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED"><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof projJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< projJson.length; i++){ %>
+						if(dijit.byId('<%=projJson[i].id%>')!=null){
+							if('<%=projJson[i].value%>' != ''){
+								dijit.byId('<%=projJson[i].id%>').setAttribute('value', '<%=projJson[i].value%>');
+							}
+						}
+						else{
+							document.getElementById('<%=projJson[i].id%>').value='<%=projJson[i].value%>';
+						}
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+			<% if(typeof appreciations != 'undefined') { %>
+				function setDateValues(){
+					var ref = dijit.byId('apprdesc');
+					ref.setAttribute('value', '<%=appreciations.APPRECIATOIN_DETAILS%>');
+					
+					ref = dijit.byId('apprby');
+					ref.setAttribute('value', '<%=appreciations.APPRECIATION_FROM%>');
+				
+					ref = dijit.byId('apprdate');
+					ref.setAttribute('value', '<%=appreciations.APPRECIATIO_DATE%>');
+					
+				}
+				dojo.addOnLoad(setDateValues);;
+			<% } %>
+	</script>
+</html>

@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">		
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<br/>
+			<b>Reported Users</b> <br/>		
+			<table>
+				<tr>
+					<th> User Name </th>
+					<td>
+						<select id="userid" name="userid">
+							<% if(typeof users != 'undefined') {%>
+								<% for(var i=0; i<users.length; i++) { %>
+									<option value="<%=users[i].id%>"><%=users[i].firstname%> <%=users[i].lastname%></option>
+								<% } %>
+							<% } %>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<button data-dojo-type="dijit/form/Button" type="button" id="viewbtn" name="viewbtn" value="view" onclick="submitForm()">View</button>
+					</td>
+				</tr>
+			</table>			
+		</form>
+	</body>
+	<script type="text/javascript">
+		function submitForm(){
+			var mfrm = document.getElementById('myform');
+			mfrm.action='viewusersummary';
+			mfrm.submit();
+			return false;
+		}
+	</script>
+</html>

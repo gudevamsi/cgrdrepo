@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title>
+			<%= title %>			
+		</title>
+		<% include dojoinclude %>
+		<style>
+			div#family {
+			   font-style:normal;
+			   font-size:11pt;
+			   font-family:"arial";
+			}
+			div#header {
+			   font-style:normal;
+			   font-size:16pt;
+			   font-family:"arial";
+			   min-width:268pt;
+			   width:268pt;
+			}
+			div#error {
+			   font-style:bold;
+			   font-size:11pt;
+			   font-family:"arial";
+			   color: RED;
+			}
+			table{
+				font-size: 13px;
+			}
+			div#heading{
+					font-family: arial,helvetica,sans-serif;
+					font-style:normal;
+			   		font-size:22pt;
+			   		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+			   		font-weight:bold;
+			   		color: white;
+				}
+	label {
+  color: #808080;
+  text-shadow: -1px 1px 0 #fff;
+  -moz-text-shadow: -1px 1px 0 #fff;
+  -webkit-text-shadow: -1px 1px 0 #fff;
+}
+		</style>
+	</head>
+	<body class="soria">
+	<img src="img/bluebackground.jpg" style="z-index:-1;locked:0;border-width:0px;border-radius:0px;-o-border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;border-color:#888;border-style:solid;background-color:transparent;left:0px;top:0px;id_stored_file:116982;box-shadow:4px 4px 10px #666;-o-box-shadow:4px 4px 10px #666;-moz-box-shadow:4px 4px 10px #666;-webkit-box-shadow:4px 4px 10px #666;behavior: url(/css/PIE.htc);width:1360px;height:605px;position:absolute;" alt="" title="" id="el42018_8f7d4c89ced30d0cdebfe034bce50f94" />
+	<div id="heading" class="ElBox" style="background-image: url(img/bluebackground.jpg);opacity:;locked:0;z-index:-1;border-width:0px;border-radius:0px;-o-border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:80%;height:15%;position:absolute;background-position:left top;margin-top:80px;    margin-left: 80px;line-height: 60px;"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Learning & Development</div>
+	<div class="ElBox" style="background-position: center bottom;  background-repeat:repeat-x; opacity:;locked:0;z-index:-1;border-width:0px;border-radius:5px;-o-border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:0px;border-color:#888;border-style:solid;background-color:rgb(250, 251, 252);filter:;behavior: url(/css/PIE.htc);width:80%;height:70%;position:absolute;margin-top:150px;    margin-left:80px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > 
+	<table><tr><td height="180" width="100%">&nbsp<img src="img/banner.JPG"></img><img src="img/gears.JPG"></img>
+	<div id="el24704_5a4a3dad4e65df35f89ebada3ab85512" style="locked:0;z-index:10012;border-width:1px;border-radius:10px;-o-border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;border-color:#NaNNaNNaN;border-style:solid;background-color:#ffffff;background-repeat:no-repeat;left:700px;top:90px;background-image:url('');id_stored_file:;behavior: url(/css/PIE.htc);width:328px;height:180px;position:absolute;background-position:left top" class="ElBox">
+	
+	<table align="right">
+	<tr><td height="40" width="100%">&nbsp</td><td></td></tr>
+			<tr style="border-spacing:5em;">
+		      	<td width="400pt">
+		      		<% if(typeof error != 'undefined') {%>
+			  			<div id="error"><%= error %></div>
+			  		<% } else{ %>
+		            	&nbsp;
+		            <% } %>
+		      		<form id="fm1" name="fm1" action="/login" method="post">
+		          		<table>
+		              		<tr>
+		                  		<td>
+		                       		<label for="usename"><div id="family">Username *</div></label>
+		                  		</td>
+		                  		<td>
+			                       <input id="username" name="username" type="text" size="24" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true"/>	
+		  	                    </td>
+		              		</tr>
+		              		<tr>
+		                  		<td>
+		                      		<label for="password"><div id="family">Password *</div></label>
+		                  		</td>
+		                  		<td>
+		                      		<input id="password" name="password" type="password" size="24" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true"/>
+		                  		</td>
+		              		</tr>
+		              		<tr>
+		                  		<td>
+		                      		&nbsp;
+		                  		</td>
+		                  		<td align='right'>
+		                  		
+		                  			<button data-dojo-type="dijit/form/Button" type="submit" name="submitbutton" id="submitbutton" value="Submit" >Login</button>
+		                  		</td>
+		              		</tr>
+		          		</table>
+		          		</div>
+		          		</td></tr></table>
+		      </td></tr><tr><td></td></tr>    		
+		          		</div>
+	
+		<div id="el82258_5abe7739114773e2e80a981edbab33c8" style="locked:0;z-index:10013;border-width:1px;border-radius:5px;-o-border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;border-color:#2f42a1;border-style:solid;background-color:#3ca9d0;background-repeat:no-repeat;left:700px;top:90px;behavior: url(/css/PIE.htc);width:328px;height:28px;position:absolute;background-position:left top" class="ElBox">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='white'>Log In</font></div>
+		    
+		      		</form>
+		      	</td>
+		      	<td width="80pt" >
+		      	</td>
+		   	</tr>
+		    <tr width="648pt" height="48pt">
+		      	<td width="252pt">
+		      	</td>
+		      	<td width="48pt" >
+		      	</td>
+		      	<td width="268pt" >
+			    	 &nbsp;
+		      	</td>
+		      	<td width="80pt" >
+		      	</td>
+		    </tr>
+		 </table>
+	</body>
+</html>

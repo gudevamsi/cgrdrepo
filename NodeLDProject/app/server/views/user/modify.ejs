@@ -1,0 +1,155 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style type="text/css">
+		table{
+ 		margin:30px;   
+		}
+		td{
+    	padding: 4px;
+   		 }
+		</style>
+	</head>
+	<body class="soria">
+		<form method="POST" action="/modifyuser" dojoType="dijit.form.Form" id="myform">
+		 <div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+		   <div  style="line-height: 60px;height:65px;width:13%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" >Modify User</div>
+		 
+			<input type="hidden" name="userid" value="<%=user.userid%>"/>
+				
+			<% if(typeof oldUserJson != 'undefined') {%>
+				<input type="hidden" name="old_firstname" value="<%=oldUserJson.firstname%>"/>
+				<input type="hidden" name="old_lastname" value="<%=oldUserJson.lastname%>"/>
+				<input type="hidden" name="old_designation" value="<%=oldUserJson.designation%>"/>
+				<input type="hidden" name="old_manageruserid" value="<%=oldUserJson.manageruserid%>"/>
+				<input type="hidden" name="old_role" value="<%=oldUserJson.role%>"/>
+			<% } else { %>
+				<input type="hidden" name="old_firstname" value="<%=user.firstname%>"/>
+				<input type="hidden" name="old_lastname" value="<%=user.lastname%>"/>
+				<input type="hidden" name="old_designation" value="<%=user.designation%>"/>
+				<input type="hidden" name="old_manageruserid" value="<%=user.manageruserid%>"/>
+				<input type="hidden" name="old_role" value="<%=user.role%>"/>
+			<% } %>
+			
+			<input type="hidden" id="designationname" name="designationname" value=""/>
+			<div id="globalerror_err"></div>
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+				<tr class="t1">
+					<td align="left"> User Id </td>
+					<td> <%=user.userid%> </td>
+					<td id="userid_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> First Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="firstname" name="firstname" value="<%=user.firstname%>"/> </td>
+					<td id="firstname_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Last Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="lastname" name="lastname" value="<%=user.lastname%>" /> </td>
+					<td id="lastname_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Designation * </td>
+					<td>
+						<select id="desination" name="designation" onchange="setDesignationName()" data-dojo-type="dijit/form/Select">
+							<option value="">--select--</option>
+							<% if(typeof designationarr != 'undefined') {%>
+					  			<% for(var i=0; i<designationarr.length; i++) {%>
+					  				<option value="<%= designationarr[i].designationId%>" <% if(user.designation == designationarr[i].name){ %> selected <% } %> > <%= designationarr[i].name%></option>
+					  			<% } %>
+					  		<% } %>
+						</select>
+					</td>
+					<td id="designation_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Manager </td>
+					<% if(user.manageruserid==null) { %>
+						<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="manager" name="manager" value="" onchange="validateManagerUserId('manager')"/> </td>
+					<% } else{ %>
+						<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="manager" name="manager" value="<%=user.manageruserid%>" onchange="validateManagerUserId('manager')"/> </td>
+					<% } %>
+					<td id="manager_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Role * </td>
+					<td> 
+						<select id="role" name="role" data-dojo-type="dijit/form/Select">
+							<option value="">--select--</option>
+							<option value="ADMIN" <% if(user.role=='ADMIN') { %> selected <% } %>  >ADMIN</option>
+							<option value="MANAGER" <% if(user.role=='MANAGER') { %> selected <% } %> >MANAGER</option>
+							<option value="USER" <% if(user.role=='USER') { %> selected <% } %> >USER</option>
+						</select>
+				 	</td>
+					<td id="role_err"></td>
+				</tr>
+				<tr class="t1">
+					<td align="right"> <button data-dojo-type="dijit/form/Button" type="submit" id="submitbutton" name="submitbutton" value="Submit">Modify</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED"><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof userJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< userJson.length; i++){ %>
+						//alert('<%=userJson[i].id%>'+'-->'+'<%=userJson[i].value%>');
+						document.getElementById('<%=userJson[i].id%>').value='<%=userJson[i].value%>';
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+			function setDesignationName(){
+				var desgname = document.getElementById('desination').options[document.getElementById('desination').selectedIndex].text;
+				document.getElementById('designationname').value=desgname;
+			}
+			setDesignationName();
+			function validateManagerUserId(value){
+				var uid = dojo.byId(value);
+				if(uid.value.trim()==''){
+					dijit.byId('submitbutton').setAttribute('disabled', false);
+					return;
+				}
+				dojo.xhrPost({
+					url: "/validatemanageruserid",
+					timeout: 2000,
+					content: {
+				        userid: uid.value
+				    },
+				    load: function(newContent) {
+				       //alert(newContent.trim());
+				       if(newContent.trim() == 'valid'){
+				       		document.getElementById('manager_err').innerHTML = '<font color="GREEN">Manager Id('+uid.value+') valid.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', false);
+				       }
+				       else if(newContent.trim() == 'invalid'){
+				       		document.getElementById('manager_err').innerHTML = '<font color="RED">Manager Id('+uid.value+') is invalid.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', true);
+				       }
+				    },
+				    error: function() {
+				    	alert('Error ...');
+				    }
+				});
+			}
+	</script>
+</html>

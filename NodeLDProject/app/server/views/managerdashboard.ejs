@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<% include ./dojoinclude %>
+		<link rel="stylesheet" type="text/css" href="css/ldproj.css"/>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+	</head>
+	<body>
+		<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:90%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+		<table style="width: 80%">
+			<tr>
+				<td> <b> Approval Pending Trainings </td>
+			</tr>
+			<tr>
+				<td>
+					<% if(approvalpendingdetails.length <= 0) { %>
+						No pending approval trainings found.
+					<% } else { %>
+						<table style="width: 100%">
+							<tr>
+								<th> User Name </th>
+								<th> Training Name </th>
+								<th> Scheduled Date </th>
+								<th> Duration </th>
+								<th> Subscribed Date </th>
+							</tr>
+							<% for(var i=0; i<approvalpendingdetails.length; i++){ %>
+								<%if(i%2){%>
+									<tr class="even">
+								<%}else{%>
+									<tr class="odd">
+								<%}%>
+									<td>
+										<%=approvalpendingdetails[i].firstname%>&nbsp;<%=approvalpendingdetails[i].lastname%>
+									</td>								
+									<td>
+										<a href="/viewtrainingnomination?trainingnominationid=<%=approvalpendingdetails[i].trainingnominationid%>&trainingid=<%=approvalpendingdetails[i].trainingid%>&userprimaryid=<%=approvalpendingdetails[i].userprimaryid%>"><%=approvalpendingdetails[i].trainingname%></a>
+									</td>
+									<td>
+										<%=approvalpendingdetails[i].scheduleddate%>
+									</td>
+									<td>
+										<%=approvalpendingdetails[i].duration%>
+									</td>
+									<td>
+										<%=approvalpendingdetails[i].subscribeddate%>
+									</td>
+								</tr>
+							<% } %>
+						</table>
+					<% } %>
+				</td>
+			</tr>
+		</table>		
+	</body>
+</html>

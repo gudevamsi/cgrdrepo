@@ -1,0 +1,178 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<script type="text/javascript">
+			function validateUserId(value){
+				var uid = dojo.byId(value);
+				dojo.xhrPost({
+					url: "/validateuserid",
+					timeout: 2000,
+					content: {
+				        userid: uid.value
+				    },
+				    load: function(newContent) {
+				       //alert(newContent.trim());
+				       if(newContent.trim() == 'exist'){
+				       		document.getElementById('userid_err').innerHTML = '<font color="RED">User Id('+uid.value+') already exist.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', true);
+				       }
+				       else if(newContent.trim() == 'notexist'){
+				       		document.getElementById('userid_err').innerHTML = '<font color="GREEN">User Id('+uid.value+') available.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', false);
+				       }
+				    },
+				    error: function(err) {
+				    	alert('Error ...'+err);
+				    }
+				});
+			}
+			
+			function validateManagerUserId(value){
+				var uid = dojo.byId(value);
+				if(uid.value.trim()==''){
+					dijit.byId('submitbutton').setAttribute('disabled', false);
+					return;
+				}
+				dojo.xhrPost({
+					url: "/validatemanageruserid",
+					timeout: 2000,
+					content: {
+				        userid: uid.value
+				    },
+				    load: function(newContent) {
+				       //alert(newContent.trim());
+				       if(newContent.trim() == 'valid'){
+				       		document.getElementById('manager_err').innerHTML = '<font color="GREEN">Manager Id('+uid.value+') valid.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', false);
+				       }
+				       else if(newContent.trim() == 'invalid'){
+				       		document.getElementById('manager_err').innerHTML = '<font color="RED">Manager Id('+uid.value+') is invalid.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', true);
+				       }
+				    },
+				    error: function() {
+				    	alert('Error ...');
+				    }
+				});
+			}
+		</script>
+		<style type="text/css">
+		table{
+ 		margin:30px;   
+		}
+		td{
+    	padding: 4px;
+   		 }
+		</style>
+	</head>
+	<body class="soria">
+		<form method="post" action="/adduser" dojoType="dijit.form.Form" id="myform">
+		  <div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+		   <div  style="line-height: 60px;height:65px;width:10%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > Add User</div>
+		  
+		 
+		
+			
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+			
+			
+				<tr class="t1">
+					<td align="left"> User Id * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true" id="userid" name="userid" onchange="validateUserId('userid')"/> </td>
+					<td id="userid_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Password * </td>
+					<td> <input type="password" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="password" name="password"/> </td>
+					<td id="password_err"></td>
+				</tr>
+				<tr class="t1">
+					<td align="left"> Re-Password * </td>
+					<td> <input type="password" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="repassword" name="repassword"/> </td>
+					<td id="repassword_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> First Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="firstname" name="firstname"/> </td>
+					<td id="firstname_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Last Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="lastname" name="lastname"/> </td>
+					<td id="lastname_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Designation * </td>
+					<td> 
+						<select id="desination" name="designation">
+							<option value="">--select--</option>
+							<% if(typeof designationarr != 'undefined') {%>
+					  			<% for(var i=0; i<designationarr.length; i++) {%>
+					  				<option value="<%= designationarr[i].designationId%>"> <%= designationarr[i].name%></option>
+					  			<% } %>
+					  		<% } else{ %>
+					  			<option value="">--2--</option>
+					  		<% } %>
+						</select>
+					</td>
+					<td id="designation_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Manager </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true" id="manager" name="manager" onchange="validateManagerUserId('manager')"/> </td>
+					<td id="manager_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Role * </td>
+					<td> 
+						<select id="role" name="role">
+							<option value="">--select--</option>
+							<option value="ADMIN">ADMIN</option>
+							<option value="MANAGER">MANAGER</option>
+							<option value="USER">USER</option>
+						</select>
+				 	</td>
+					<td id="role_err"></td>
+				</tr>
+				<tr class="t1" >
+					<td align="right" height="7%"> &nbsp; </td>
+					<td align="left"  height="7%">&nbsp;  </td>
+				</tr>	
+				<tr class="t1">
+					<td align="right" colspan="2">  <button data-dojo-type="dijit/form/Button" type="submit" id="submitbutton" name="submitbutton" value="Submit">Submit</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED" ><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof userJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< userJson.length; i++){ %>
+						//alert('<%=userJson[i].id%>'+'-->'+'<%=userJson[i].value%>');
+						if(document.getElementById('<%=userJson[i].id%>')!=null){
+							document.getElementById('<%=userJson[i].id%>').value='<%=userJson[i].value%>';
+						}
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+	</script>
+</html>

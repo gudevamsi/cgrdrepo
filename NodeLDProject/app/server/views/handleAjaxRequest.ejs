@@ -1,0 +1,136 @@
+<% if(typeof from != 'undefined') {%>
+
+	<% if(from == 'validateprojectrolename') {%>
+		<% if(typeof projectrolename != 'undefined') {%>
+			<%= projectrolename%>
+		<% } %>
+	<% } %>
+	
+	<% if(from == 'validateuserTagging' || from == 'validateuserid') {%>
+		<% if(typeof userid != 'undefined') {%>
+			<%= userid%>
+		<% } %>
+	<% } %>
+	<% if(from == 'getUsersByProjectId') {%>
+		<% if(typeof users != 'undefined') {%>
+			<%= users%>
+		<% } %>
+	<% } %>
+	
+	<% if(from == 'adduser') {%>
+		<% if(typeof userid != 'undefined') {%>
+			<html>
+				<form action="/viewuser" method="GET" id="viewuserform">
+					<input type="hidden" name="userid" value="<%=userid%>"/>
+				</form>
+				<script type="text/javascript">
+					function submitForm(){
+						var viewuserform=document.getElementById('viewuserform');
+						//alert('<%=userid%> -->'+viewuserform);
+						viewuserform.submit();
+					}
+					submitForm();
+				</script>
+			</html>
+		<% } %>
+	<% } %>
+	
+	<% if(from == 'router') {%>
+		<html>
+			<head>
+				<script type="text/javascript">
+					function mytimeout(){
+						setTimeout(setTimeout, 2000);
+					}
+					function setTimeout(){
+						window.top.location.href='/login';
+					}
+					mytimeout();
+				</script>
+			</head>
+			<body>
+				<b>Redirecting to home page as session not exit ...</b>
+			</body>
+		</html>	
+	<% } %>
+
+	<% if(from == 'addproject') {%>
+		<% if(typeof projid != 'undefined') {%>
+			<html>
+				<form action="/viewproject" method="GET" id="viewprojform">
+					<input type="hidden" name="projid" value="<%=projid%>"/>
+				</form>
+				<script type="text/javascript">
+					function submitForm(){
+						var viewprojform=document.getElementById('viewprojform');
+						//alert('<%=projid%> -->'+viewprojform);
+						viewprojform.submit();
+					}
+					submitForm();
+				</script>
+			</html>
+		<% } %>
+	<% } %>
+	
+	<% if(from == 'addtraining') {%>
+		<% if(typeof trainingid != 'undefined') {%>
+			<html>
+				<form action="/viewtraining" method="GET" id="viewtrainingform">
+					<input type="hidden" name="trainingid" value="<%=trainingid%>"/>
+				</form>
+				<script type="text/javascript">
+					function submitForm(){
+						var viewtrainingform=document.getElementById('viewtrainingform');
+						//alert('<%=trainingid%> -->'+viewtrainingform);
+						viewtrainingform.submit();
+					}
+					submitForm();
+				</script>
+			</html>
+		<% } %>
+	<% } %>
+	
+	<% if(from == 'addprojectrole') {%>
+		<% if(typeof projroleid != 'undefined') {%>
+			<html>
+				<form action="/viewprojectrole" method="GET" id="viewprojroleform">
+					<input type="hidden" name="projroleid" value="<%=projroleid%>"/>
+				</form>
+				<script type="text/javascript">
+					function submitForm(){
+						var viewprojroleform=document.getElementById('viewprojroleform');
+						//alert('<%=projroleid%> -->'+viewprojroleform);
+						viewprojroleform.submit();
+					}
+					submitForm();
+				</script>
+			</html>
+		<% } %>
+	<% } %>
+	<% if(from == 'addcertification') {%>
+		<% if(typeof certificationid != 'undefined') {%>
+			<html>
+				<form action="/viewcertification" method="GET" id="viewcertification">
+					<input type="hidden" name="certificationid" value="<%=certificationid%>"/>
+					<input type="hidden" name="action" value="view"/>
+				</form>
+				<script type="text/javascript">
+					function submitForm(){
+						var viewcertification=document.getElementById('viewcertification');
+						//alert('<%=certificationid%> -->'+viewcertification);
+						viewcertification.submit();
+					}
+					submitForm();
+				</script>
+			</html>
+		<% } %>
+	<% } %>
+	
+<% } %>
+
+
+<% if(from == '') {%>
+		<% if(typeof userid != 'undefined') {%>
+			<%= userid%>
+		<% } %>
+	<% } %>

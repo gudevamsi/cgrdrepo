@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>
+			<%= title %>			
+		</title>
+		 		
+			<style type="text/css">
+			 <link rel="stylesheet" href="css/8_b_4_b_c78f9e22b2badbf6daf6a329b4f9825d5b3b.css" type="text/css"/>
+				html, body {
+				    
+				    font-size: 12px;
+				    font-family: arial,helvetica,sans-serif;
+				}
+				
+				table{
+				font-family: helvetica,sans-serif;
+				}
+				div#heading{
+					font-family: arial,helvetica,sans-serif;
+					font-style:normal;
+			   		font-size:22pt;
+			   		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+			   		font-weight:bold;
+			   		color: white;
+				}
+			</style> 	
+			<% include dojoinclude %>
+	</head>
+	<body class="soria">
+	 <img src="img/bluebackground.jpg" style="z-index:-1;locked:0;border-width:0px;border-radius:0px;-o-border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;border-color:#888;border-style:solid;background-color:transparent;left:0px;top:0px;id_stored_file:116982;box-shadow:4px 4px 10px #666;-o-box-shadow:4px 4px 10px #666;-moz-box-shadow:4px 4px 10px #666;-webkit-box-shadow:4px 4px 10px #666;behavior: url(/css/PIE.htc);width:1360px;height:605px;position:absolute;" alt="" title="" id="el42018_8f7d4c89ced30d0cdebfe034bce50f94" />
+	 
+		
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" "style="width: 10%; height: 100%; "">
+    			<table style="width: 100%;height:12%">
+    				<tr>
+    					<td width="15%" style="text-align:right; vertical-align: bottom">
+    						<img src="img/Cap-GeminiNew.jpg"/> 
+    					</td>
+    					<td width="35%" style="text-align:left">
+    						<div id="heading">Learning &amp; Development</div>
+    					</td>
+    					<td width="50%" style="text-align:right; vertical-align: top">
+    						<div style="color: WHITE">Welcome <b><%= data.firstname %>&nbsp;<%= data.lastname %></b> &nbsp; Feedback &nbsp; <a href="/logout" style="color: WHITE">Logout</a></div>
+    					</td>
+    				</tr>
+    			</table>
+    		</div>
+    		
+    		<table  style="padding: 0; border-spacing: none;width: 100%" cellspacing="0" cellpadding="0">
+    		<tr><td width="15%" valign="top">
+    		
+    		<div data-dojo-type="dijit/layout/AccordionContainer" data-dojo-props="region:'leading'" style="width: 208px;height:470px; font-family:arial; font-size: 10pt">
+    			<% if(data.role == 'ADMIN') { %>			
+	        		<div data-dojo-type="dijit/layout/AccordionPane" title="User">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/adduser" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewalluser" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div>
+	        		<div data-dojo-type="dijit/layout/AccordionPane" title="Project">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addproject" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallprojects" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div>
+					<div data-dojo-type="dijit/layout/AccordionPane" title="Project Role">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addprojectrole" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallprojectroles" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div>
+	        		<div data-dojo-type="dijit/layout/AccordionPane" title="Training">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addtraining" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewalltrainings" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div> 
+					<div data-dojo-type="dijit/layout/AccordionPane" title="Tagging">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addTagging" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallTagging" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div> 
+				<% } %>
+				<% if(data.role == 'USER') { %>			
+	        		<div data-dojo-type="dijit/layout/AccordionPane" title="Home">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/showuserdashboard" target="main_container_iframe" style="margin-bottom: 4cm;">Home</a> <br/>
+						
+					</div>
+					<div data-dojo-type="dijit/layout/AccordionPane" title="Training">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallfuturetrainings" target="main_container_iframe" style="margin-bottom: 4cm;">Trainings</a> <br/>
+					</div>
+					<div data-dojo-type="dijit/layout/AccordionPane" title="Certification">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addcertification" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallcertification" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div>
+					
+				<% } %>
+				<% if(data.role == 'MANAGER') { %>			
+	        		<div data-dojo-type="dijit/layout/AccordionPane" title="Home">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/showmanagerdashboard" target="main_container_iframe" style="margin-bottom: 4cm;">Home</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewalltrainings" target="main_container_iframe" style="margin-bottom: 4cm;">Trainings</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewreportedusers" target="main_container_iframe" style="margin-bottom: 4cm;">Reportees</a> <br/>
+					</div>
+					<div data-dojo-type="dijit/layout/AccordionPane" title="Project Appreciations">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/addappreciation" target="main_container_iframe" style="margin-bottom: 4cm;">Add</a> <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/viewallappreciations" target="main_container_iframe" style="margin-bottom: 4cm;">View</a> <br/>
+					</div>
+					
+				<% } %>
+    		</div>
+    		</td>
+    		<td width="85%">
+    		
+    			<div  style="height:20px;">&nbsp;</div>
+    			 <iframe allowtransparency="true" height="451px" width="100%" title="Contents" frameborder="0" id="main_container_iframe" 
+        			name="main_container_iframe"> 
+				</iframe>
+				</td></tr></table>
+    		
+    		</td>
+    		</tr>
+    		</table>
+    		
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom'">
+				Copyright
+			</div>
+			<div class="ElBox" style="left:220px;top:82px;locked:0;z-index:0;border-width:1px;border-radius:0px;-o-border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;border-color:#000000;border-style:solid;background-color:#eeeeee;background-repeat:no-repeat;behavior: url(/css/PIE.htc);width:83%;height:1%;position:absolute;background-position:left top" id="el41374_b17913d521ec47202d74b993ae355f2c" >  
+    		</div>
+	</body>
+	<script type="text/javascript">
+		function setDefaultHome(){
+			var ifm = document.getElementById('main_container_iframe');
+			<% if(data.role == 'ADMIN'){ %>
+				ifm.src = '/html/welcome.html';
+			<% } %>
+			<% if(data.role == 'MANAGER'){ %>
+				ifm.src = '/showmanagerdashboard';
+			<% } %>
+			<% if(data.role == 'USER'){ %>
+				ifm.src = '/showuserdashboard';
+			<% } %>
+		}
+		dojo.addOnLoad(setDefaultHome);
+	</script>
+</html>

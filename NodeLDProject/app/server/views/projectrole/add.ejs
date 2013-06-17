@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<script type="text/javascript">
+			function validateProjRoleName(value){
+				var rolename = dojo.byId(value);
+				dojo.xhrPost({
+					url: "/validateprojectrolename",
+					timeout: 2000,
+					content: {
+				        projrolename: rolename.value
+				    },
+				    load: function(newContent) {
+				       //alert(newContent.trim());
+				       if(newContent.trim() == 'exist'){
+				       		document.getElementById(value+'_err').innerHTML = '<font color="RED">Role Name('+rolename.value+') already exist.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', true);
+				       }
+				       else if(newContent.trim() == 'notexist'){
+				       		document.getElementById(value+'_err').innerHTML = '<font color="GREEN">Role Name('+rolename.value+') available.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', false);
+				       }
+				    },
+				    error: function(err) {
+				    	alert('Error ...'+err);
+				    }
+				});
+			}
+		</script>
+		<style type="text/css">
+		table{
+ 		margin:30px;   
+		}
+		td{
+    	padding: 4px;
+   		 }
+		</style>
+	</head>
+	<body class="soria">
+		<form method="post" action="/addprojectrole" id="myform" dojoType="dijit.form.Form">
+	 <div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+	 <div  style="line-height: 60px;height:65px;width:15%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > Add Project Role</div>
+			
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+				<tr class="t1">
+					<td align="left"> Project Role Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true" id="projrolename" name="projrolename" onchange="validateProjRoleName('projrolename')"/> </td>
+					<td id="projrolename_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left" style="vertical-align: top"> Project Role Description * </td>
+					<td> <textarea id="projroledesc" name="projroledesc" rows="10" cols="50" data-dojo-type="dijit/form/Textarea" data-dojo-props="trim:true" style="width:400px; height: 100px"></textarea> </td>
+					<td id="projroledesc_err" style="vertical-align: top"></td>
+				</tr>
+				<tr class="t1">				
+					<td align="right"> <button data-dojo-type="dijit/form/Button" type="submit" name="submitbutton" id="submitbutton" value="Submit">Submit</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>	
+			</table>
+		</form>
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED"><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof projectRoleJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< projectRoleJson.length; i++){ %>
+						//alert('<%=projectRoleJson[i].id%>'+'-->'+'<%=projectRoleJson[i].value%>');
+						document.getElementById('<%=projectRoleJson[i].id%>').value='<%=projectRoleJson[i].value%>';
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+	</script>
+</html>

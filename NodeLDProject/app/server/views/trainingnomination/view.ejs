@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<link rel="stylesheet" type="text/css" href="css/ldproj.css"/>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style>
+			table{
+				font-size: 13px;
+			}
+		</style>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">
+			<input type="hidden" id="trainingid" name="trainingid" value="<%=trainingnomination.trainingid%>"/>
+			<input type="hidden" id="trainingnominationid" name="trainingnominationid" value="<%=trainingnomination.trainingnominationid%>"/>
+			<input type="hidden" id="userprimaryid" name="userprimaryid" value="<%=trainingnomination.userprimaryid%>"/>
+			<input type="hidden" id="action" name="action" value=""/>
+			
+			<h3>View Training Nomination</h3>
+
+			<table width="50%">
+				<% if(typeof trainingnomination != 'undefined') {%>
+					<tr class="even">
+						<td  style="width: 25%"> User: </td>
+						<td  style="width: 75%"> <%=trainingnomination.firstname%>&nbsp;<%=trainingnomination.lastname%> </td>
+					</tr>
+					<tr class="odd">
+						<td  style="width: 25%"> Requested Date: </td>
+						<td  style="width: 75%"> <%=trainingnomination.subscribeddate%> </td>
+					</tr>					
+					<tr class="even">
+						<td  style="width: 25%"> Training Name: </td>
+						<td  style="width: 75%"> <%=trainingnomination.trainingname%> </td>
+					</tr>
+					<tr class="odd">
+						<td  style="width: 25%"> Training Description: </td>
+						<td  style="width: 75%"> <%=trainingnomination.description%> </td>
+					</tr>
+					<tr class="even">
+						<td  style="width: 25%"> Scheduled Date: </td>
+						<td  style="width: 75%"> <%=trainingnomination.scheduleddate%> </td>
+					</tr>
+					<tr class="odd">
+						<td  style="width: 25%"> Duration: </td>
+						<td  style="width: 75%"> <%=trainingnomination.duration%> </td>
+					</tr>
+					
+					<tr>
+						<td colspan="2">
+							<button data-dojo-type="dijit/form/Button" type="button" id="approvebtn" name="approve" value="Approve" onclick="submitForm('approve')">Approve</button>
+							<button data-dojo-type="dijit/form/Button" type="button" id="rejectbtn" name="reject" value="Reject" onclick="submitForm('reject')">Reject</button>
+						</td>
+					</tr>
+					
+				<% } %>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+		function submitForm(action){
+			document.getElementById('action').value = action;
+			var mfrm = document.getElementById('myform');
+			mfrm.action='approverejecttrainingnomination';
+			mfrm.submit();
+		}
+	</script>
+</html>

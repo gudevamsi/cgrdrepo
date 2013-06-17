@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style>
+			table{
+				margin:10px;  border-spacing: 0px;font-size: 10pt;font-family: arial,helvetica,sans-serif;cellpadding:"3px";
+			}
+			th{
+				text-align: left; color: #000000; font-size: 12px; font-family: Arial; background-color: #6fa8dc; border-color:#000000; width: 0px;"
+			}
+			td{
+    			padding: 3px;
+   		 	}
+   		 	tr.even{background-color:#F0F0F0;}
+   		 	tr.odd{background-color:#DFDFDF;}
+		</style>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">		
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:130%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<br/>
+			&nbsp;<b>User Summary</b>
+			<table style="width: 90%">
+				<% if(typeof user != 'undefined') {%>
+					<tr>
+						<th colspan="4">User Details</th>
+					</tr>
+					<tr class="even">
+						<td width="25%"> <b>User ID:</b> <%=user.userid%> </td>
+						<td width="25%"> <b>Name:</b> <%=user.firstname%> <%=user.lastname%></td>
+						<td width="25%"> <b>Designation:</b> <%=user.designation%> </td>
+						<td width="25%"> <b>Manager:</b> <%=user.manageruserid%> </td>
+					</tr>
+				<% } %>	
+			</table>
+			
+			&nbsp;<b> Project Summary </b>
+			<% if(projarr.length == 0){ %>
+				<table style="width: 90%">
+					<tr class="even">
+						<td>User is not tagged to any project(s).</td>
+					</tr>
+				</table>
+			<% } else {%>
+				<% for(var i=0; i<projarr.length; i++){ %>
+					<table style="width: 90%">
+						<tr>
+							<th colspan="4"> Project-<%=i+1%> </td>
+						</tr>
+						<tr class="even">
+							<td width="25%"> <b>Name: </b> <%=projarr[i].projname%> </td>
+							<td width="25%"> <b>Role: </b> <%=projarr[i].projrole%> </td>
+							<td width="25%"> <b>Start Date: </b> <%=projarr[i].projstartdate%> </td>
+							<td width="25%"> <b>End Date: </b> <%=projarr[i].projenddate%> </td>
+						</tr>
+						<tr class="odd">
+							<td colspan="4"> <b>Description: </b> <%=projarr[i].projdesc%> </td>
+						</tr>
+					</table>										
+				<% } %>
+			<% } %>	
+			
+			<table style="width: 90%">
+				<tr>
+					<th colspan="4"> Appreciation Details </th>
+				</tr>
+				<% if(projapparr.length ==0 ){ %>
+					<tr class="even">
+						<td>No appreciation found </td>
+					</tr>
+				<% } else {%>
+					<% var count = 0; %>
+					<% for(var i=0; i<projarr.length; i++) { %>
+						<% for(var j=0; j<projapparr.length; j++) { %>
+							<% if(projarr[i].projid == projapparr[j].projid){%>
+								<% if(count++ % 2 ==0) { %>
+									<tr class="even">
+								<% } else { %>
+									<tr class="odd">
+								<% } %>
+									<td style="width: 25%"> <b>Project: </b> <%=projarr[i].projname%></td>
+									<td style="width: 25%"> <b>From: </b> <%=projapparr[j].projappfrom%></td>
+									<td style="width: 25%"> <b>Date: </b> <%=projapparr[j].projappdate%></td>									
+									<td style="width: 25%"> <b>Details: </b> <%=projapparr[j].projappdetails%></td>
+								</tr>
+							 <% } %>
+						<% } %>
+					<% } %>
+				<% } %>
+			</table>	
+			&nbsp;<b>Certification summary </b>
+			<table style="width: 90%">
+				<tr>
+					<th colspan="4"> Certification Details </th>
+				</tr>
+				<% if(certarr.length ==0 ){ %>
+					<tr class="even">
+						<td>No certifications found </td>
+					</tr>
+				<% } else {%>
+					<% for(var i=0; i<certarr.length; i++){ %>
+						<% if(i % 2 ==0) { %>
+							<tr class="even">
+						<% } else { %>
+							<tr class="odd">
+						<% } %>
+						<td style="width: 25%"> <b>Name: </b> <%=certarr[i].certificationname%></td>
+						<td style="width: 25%"> <b>Date: </b> <%=certarr[i].certificationdate%></td>
+						<td style="width: 50%" colspan="2"> <b>Description: </b> <%=certarr[i].certificationdesc%></td>									
+					<% } %>
+				<% } %>
+			</table>
+			
+			&nbsp; <b>Training Summary </b>
+			<table style="width: 90%">
+				<tr>
+					<th colspan="4"> Training Details </th>
+				</tr>
+				<% if(trainingarr.length ==0 ){ %>
+					<tr class="even">
+						<td>No Trainings found </td>
+					</tr>
+				<% } else {%>
+					<% for(var i=0; i<trainingarr.length; i++){ %>
+						<% if(i % 2 ==0) { %>
+							<tr class="even">
+						<% } else { %>
+							<tr class="odd">
+						<% } %>
+						<td style="width: 25%"> <b>Name: </b> <%=trainingarr[i].trainingname%></td>
+						<td style="width: 25%"> <b>Scheduled Date: </b> <%=trainingarr[i].scheduleddate%></td>
+						<td style="width: 25"> <b>Duration: </b> <%=trainingarr[i].duration%></td>
+						<td style="width: 25"> <b>Attended: </b> Yes</td>
+					<% } %>
+				<% } %>
+			</table>				
+		</form>
+	</body>
+</html>

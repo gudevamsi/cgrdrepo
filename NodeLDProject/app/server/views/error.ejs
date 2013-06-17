@@ -1,0 +1,9 @@
+<html>
+	<body>
+		<% if(typeof action != 'undefined' && typeof error != 'undefined') {%>
+			<p>The following error occurred while <%=action%>:</p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<font color="red"> <%=error%>
+		<% } %>
+	</body>
+</html>

@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style>
+			table{
+				font-size:12px;
+				font-weight:normal;
+				font-family:Arial;
+		 		margin:30px;   
+			}
+			td{
+	    		padding: 4px;
+	   		}
+			tr.even{background-color:#F0F0F0;}
+	   		tr.odd{background-color:#DFDFDF;}
+		</style>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">		
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<br/>&nbsp;
+			<% if(typeof action != 'undefined') {%>
+				<% if(action == 'delete'){ %>
+					<b>Delete Certification</b>
+				<% } else {%>
+					<b>View Certification</b>
+				<% } %>
+			<% } else {%>
+				<b>View Certification</b>
+			<% } %>
+	
+			<input type="hidden" id="certificationid" name="certificationid" value=""/>
+			<input type="hidden" id="action" name="action" value=""/>
+			
+			<table>
+				<% if(typeof certification != 'undefined') {%>
+					<tr class="even">
+						<th align="left"> User Name: </th>
+						<td> <%=certification.firstname%>&nbsp;<%=certification.lastname%> </td>
+					</tr>
+					<tr class="odd">
+						<th align="left"> Certification Name: </th>
+						<td> <%=certification.certificationname%> </td>
+					</tr>
+					<tr class="even">
+						<th align="left"> Description: </th>
+						<td> <%=certification.certificationdesc%> </td>
+					</tr>					
+					<tr class="odd">
+						<th align="left"> Certification Date: </th>
+						<td> <%=certification.certificationdate%> </td>
+					</tr>
+					<% if(typeof action != 'undefined') {%>
+						<% if(action == 'delete') { %>
+							<tr class="even">
+								<td align="right" colspan="2">
+									<button data-dojo-type="dijit/form/Button" type="button" id="deletebtn" name="delete" value="Delete" onclick="submitForm('<%=certification.certificationid%>','delete')">Delete</button>
+								</td>
+							</tr>
+						<%} else { %>
+							<tr>
+								<td align="center" colspan="2">
+									<button data-dojo-type="dijit/form/Button" type="button" id="modifybtn" name="modify" value="Modify" onclick="submitForm('<%=certification.certificationid%>','modify')">Modify</button>
+									<button data-dojo-type="dijit/form/Button" type="button" id="deletebtn" name="delete" value="Delete" onclick="submitForm('<%=certification.certificationid%>','delete')">Delete</button>
+								</td>
+							</tr>
+						<% } %>
+					<% } %>
+				<% } %>	
+			</table>
+		</form>
+	</body>
+	<script type="text/javascript">
+		function submitForm(id, action){
+			document.getElementById('certificationid').value=id;
+			document.getElementById('action').value = action;
+			
+			if(action=='view'){
+				window.location.href = '/viewcertification?certificationid='+id+'&action='+action;
+			}
+			else if(action=='modify'){
+				window.location.href = '/modifycertification?certificationid='+id+'&action='+action;
+			}
+			else if(action=='delete'){
+				if(window.confirm('Are you sure you want to delete the user?')){
+					window.location.href = '/deletecertification?certificationid='+id+'&action='+action;
+				}
+				else{
+					return false;
+				}
+			}
+			return false;
+		}
+	</script>
+</html>

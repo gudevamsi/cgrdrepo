@@ -1,0 +1,158 @@
+<html>
+	<head>
+		<% include ./dojoinclude %>
+		<link rel="stylesheet" type="text/css" href="css/ldproj.css"/>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+	</head>
+	<body>
+		<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:90%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+		<table style="width: 50%">
+			<tr>
+				<td> <b> Available Trainings </td>
+			</tr>
+			<tr>
+				<td>
+					<% if(trainingdetails.length <= 0) { %>
+						No trainings available.
+					<% } else { %>
+						<table style="width: 100%">
+							<tr>
+								<th> Training Name </th>
+								<th> Scheduled Date </th>
+								<th> Duration </th>
+							</tr>
+							<% for(var i=0; i<trainingdetails.length; i++){ %>
+								<%if(i%2){%>
+									<tr class="even">
+								<%}else{%>
+									<tr class="odd">
+								<%}%>								
+									<td>
+										<a href="/viewtraining?trainingid=<%=trainingdetails[i].trainingid%>"><%=trainingdetails[i].trainingname%></a>
+									</td>
+									<td>
+										<%=trainingdetails[i].scheduleddate%>
+									</td>
+									<td>
+										<%=trainingdetails[i].duration%>
+									</td>
+								</tr>
+							<% } %>
+						</table>
+					<% } %>
+				</td>
+			</tr>
+		</table>
+		
+		
+		<table style="width: 70%">
+			<tr>
+				<td> <b> Subscribed Trainings </td>
+			</tr>
+			<tr>
+				<td>
+					<% if(subscribedtrainings.length <= 0) { %>
+						No subscribed trainings found.
+					<% } else { %>
+						<table style="width: 100%">
+							<tr>
+								<th> Training Name </th>
+								<th> Scheduled Date </th>
+								<th> Duration </th>
+								<th> Status </th>
+								<th> Approved / Denied Date </th>
+							</tr>
+							<% for(var i=0; i<subscribedtrainings.length; i++){ %>
+								<%if(i%2){%>
+									<tr class="even">
+								<%}else{%>
+									<tr class="odd">
+								<%}%>								
+									<td>
+										<a href="/viewtraining?trainingid=<%=subscribedtrainings[i].trainingid%>&approvalpending=yes"><%=subscribedtrainings[i].trainingname%></a>
+									</td>
+									<td>
+										<%=subscribedtrainings[i].scheduleddate%>
+									</td>
+									<td>
+										<%=subscribedtrainings[i].duration%>
+									</td>
+									<td>
+										<% if(subscribedtrainings[i].approvalpending == 'Y') {%>
+											Approval Pending
+										<% } else { %>
+											<% if(subscribedtrainings[i].approveddenied == 'Y') { %>
+												Approved
+											<% } else { %>
+												Denied
+											<% } %>
+										<% } %>
+									</td>
+									<td>
+										<%=subscribedtrainings[i].updateddate%>
+									</td>
+								</tr>
+							<% } %>
+						</table>
+					<% } %>
+				</td>
+			</tr>
+		</table>
+		
+		<table style="width: 70%">
+			<tr>
+				<td> <b> Appreciations Received</td>
+			</tr>
+			<tr>
+				<td>
+					<% if(appreciations.length <= 0) { %>
+						No subscribed Appreciations found.
+					<% } else { %>
+						<table style="width: 100%">
+							<tr>
+								<th WIDTH='10%'> Project </th>
+								<th WIDTH='10%'> Appreciation By </th>
+								<th WIDTH='20%'> Appreciation Details </th>
+								<th WIDTH='20%'> Appreciation Date </th>
+								<th WIDTH='20%'> Updated By </th>
+								<th WIDTH='20%'> Updated Date </th>
+							</tr>
+							<% for(var i=0; i<appreciations.length; i++){ %>
+								<%if(i%2){%>
+									<tr class="even">
+								<%}else{%>
+									<tr class="odd">
+								<%}%>								
+									
+									<td>
+										<%=appreciations[i].PROJECT_NAME%>
+									</td>
+									<td>
+										<%=appreciations[i].APPRECIATION_FROM%>
+									</td>
+									<td>
+										<%=appreciations[i].APPRECIATOIN_DETAILS%>
+									</td>
+									<td>
+										<%=appreciations[i].APPRECIATIO_DATE%>
+									</td>
+									<td>
+										<%=appreciations[i].UPDATED_BY_FN%>&nbsp;<%=appreciations[i].UPDATED_BY_LN%>
+									</td>
+									<td>
+										<%=appreciations[i].UPDATED_DATE%>
+									</td>
+								</tr>
+							<% } %>
+						</table>
+					<% } %>
+				</td>
+			</tr>
+		</table>
+		
+	</body>
+</html>

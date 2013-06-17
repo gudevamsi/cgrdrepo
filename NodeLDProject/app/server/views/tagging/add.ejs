@@ -1,0 +1,255 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<script type="text/javascript">
+			
+			</script>
+		<style>
+			table{
+				margin:10px;  border-spacing: 0px;font-size: 10pt;font-family: arial,helvetica,sans-serif;cellpadding:"3px";
+			}
+			th{
+			text-align: center; color: #000000; font-size: 12px; font-family: Arial; background-color: #6fa8dc; border-color:#000000; width: 0px;"
+			}
+			td{
+    	padding: 3px;
+   		 }
+   		 tr.even{background-color:#F0F0F0;}
+   		 tr.odd{background-color:#DFDFDF;}
+   		 
+		</style>
+	</head>
+	<body class="soria">
+		<form method="POST" action="/addTagging" dojoType="dijit.form.Form" id="myform" onsubmit="return validateTagging()">
+		 <div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+		   <div  style="line-height: 60px;height:65px;width:13%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" >Tag To Project</div>
+		 
+		
+			 <table><tr><td>Project</td><td> <select id="projectId" name="projectId" width="100%" style="width: 100%"  ><option value="">--select--</option><% for(var i=0; i<projects.length; i++) {%><option value="<%=projects[i].projid%>" ><%=projects[i].projname%></option><% } %></select></td></tr></table>
+			
+			<div style="line-height: 12px;height:12px;width:90%;font-size: 12px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;    margin-top: 5px;    margin-left: 15px;"  id="globalerror_err"></div>
+			<table style="margin:10px;  border-spacing:0px;font-size: 10pt;font-family: arial,helvetica,sans-serif;width: 95%;height:12%" id="tagging" name="tagging">
+			<tbody id="taggingbody">
+			<tr>
+					
+					<th width='30%'">User* </th>
+					<th width='20%'>Project Role* </th>
+					<th width='10%'">Start Date* </th>
+					<th width='10%'>End Date* </th>
+					<th width='20%'> &nbsp; </th>
+					<th width='40%'> &nbsp; </th>
+					
+				</tr>
+				
+				
+				
+				</tbody>
+				</table>
+				<div align="left" style="line-height: 12px;height:12px;width:40%;font-size: 12px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;    margin-top: 5px;    margin-left: 15px;" > <button data-dojo-type="dijit/form/Button" type="submit" id="submitbutton" name="submitbutton" value="Submit" >Save</button></div> 
+			<input type="hidden" id="count" name="count" />
+		</form>
+	</body>
+	<script type="text/javascript">
+			function validateAssociation(sel){
+			var projectSel = document.getElementById('projectId');
+			
+			var id = sel.id+"_err";
+			
+      		 var uId = sel.options[sel.selectedIndex].value;
+      		 
+      		 if(count-1!=1){
+      		 for(var i=1;i<=count-2;i++){
+      		 var selId = "userid"+i;
+      		
+      		 selVal  = document.getElementById(selId).value;
+      		 if(selVal == uId){
+      		 	document.getElementById(id).innerHTML = '<font color="RED">User '+sel.options[sel.selectedIndex].text+' is already Selected above.</font>';
+      		 	return;
+      		 }
+      		 }
+      		 }
+       		
+       		 
+				dojo.xhrPost({
+					url: "/validateuserTagging",
+					timeout: 2000,
+					content: {
+				        userid: uId
+				    },
+				    load: function(newContent) {
+				     
+				      // alert(newContent.trim());
+				       if(newContent.trim() == 'tagged'){
+				      
+				       		document.getElementById(id).innerHTML = '<font color="RED">User '+sel.options[sel.selectedIndex].text+' is already Tagged.</font>';
+				       		dijit.byId('submitbutton').setAttribute('disabled', true);
+				       }
+				       else if(newContent.trim() == 'notTagged'){
+				       		//document.getElementById('globalerror_err').innerHTML = '<font color="GREEN">User Id('+ sel.options[sel.selectedIndex].text +') available.</font>';
+				       		document.getElementById(id).innerHTML = "";
+				       		dijit.byId('submitbutton').setAttribute('disabled', false);
+				       }
+				    },
+				    error: function(err) {
+				    	alert('Error ...'+err);
+				    }
+				});
+			}
+			
+			
+			var count = 1;
+   			var nRows = 2;
+   			 dojo.require("dojo.parser");
+      		 dojo.require("dijit.form.DateTextBox");
+			function addUser(){
+			
+			var rowCount = document.getElementById("tagging").rows.length
+			var tBody = document.getElementById('taggingbody');
+ 				var newRow = document.createElement('tr');
+ 				var col1 = document.createElement('td');
+ 				col1.style.width = '15%';
+ 				
+ 				var col2 = document.createElement('td');
+ 				col2.style.width = '15%'
+ 				var col3 = document.createElement('td');
+ 				col3.style.width = '15%'
+ 				var col4 = document.createElement('td');
+ 				col4.style.width = '15%'
+ 				var col5 = document.createElement('td');
+ 				col5.style.width = '5%'
+ 				var col6 = document.createElement('td');
+ 				col6.style.width = '35%'
+ 				newRow.setAttribute('id', 'n' + count);
+ 				if(rowCount%2)
+ 				newRow.setAttribute('class', "even");
+ 				else
+ 				newRow.setAttribute('class', "odd");
+ 				
+ 				col1.innerHTML = '<select id="userid'+count+'" name="userid'+count+'" onchange="validateAssociation(this)" width="100%" style="width: 100%" >'+
+							'<option value="">--select--</option>'+
+							
+					  			'<% for(var i=0; i<user.length; i++) {%>'+
+					  				'<option value="<%=user[i].id%>" ><%=user[i].firstname%>&nbsp;<%=user[i].lastname%></option>'+
+					  			
+					  			'<% } %>'+
+						'</select>';
+ 			 
+				col2.innerHTML = '<select id="projectRole'+count+'" name="projectRole'+count+'"   width="100%" style="width: 100%" >'+
+							'<option value="">--select--</option>'+
+							
+					  			'<% for(var i=0; i<projectRoles.length; i++) {%>'+
+					  				'<option value="<%= projectRoles[i].projroleid%>" > <%= projectRoles[i].projrolename%></option>'+
+					  			
+					  			'<% } %>'+
+						'</select>';
+				
+				var fromDate = new dijit.form.DateTextBox({
+          					required: "true",
+          					name: "startDate"+count
+       						 });
+       			var toDate = new dijit.form.DateTextBox({
+          					required:"true",
+          					name : "toDate"+count
+       						 });
+        		col3.appendChild(fromDate.domNode);
+				
+				col4.appendChild(toDate.domNode);
+					
+				col5.innerHTML = '<img  height="15" width="15" src="img/add.jpg" onClick="addUser()"/> ';
+				col6.innerHTML = '<div id="userid'+count+'_err" name="userid'+count+'_err"  width="100%" style="width: 100%" > </div>';
+				
+   
+   				newRow.appendChild(col1);
+   				
+   				newRow.appendChild(col2);
+   				newRow.appendChild(col3);
+   				newRow.appendChild(col4);
+   				newRow.appendChild(col5);
+   				newRow.appendChild(col6);
+   				
+   				tBody.appendChild(newRow);
+   
+   				count++;
+   				nRows++;
+   				document.getElementById('count').value = count-1;
+           
+           
+			}
+			addUser();
+			function validateTagging(){
+			var projectSel = document.getElementById('projectId');
+			if(projectSel.options[projectSel.selectedIndex].value == ""){
+			document.getElementById('globalerror_err').innerHTML = '<font color="RED">Please select the Project.</font>';
+			return false;
+			}
+			document.getElementById('globalerror_err').innerHTML="";
+			var errorsExist = false;
+			 for(var i=1;i<=count-1;i++){
+      		 var userId = "userid"+i;
+      		 var projectId = "projectRole"+i;
+      		
+      		 var endDate = "toDate"+i;
+      		 var err="";
+      		 var usel = document.getElementById(userId);
+      		 var psel = document.getElementById(projectId);
+      		 var id = userId+"_err";
+      		 if(usel.options[usel.selectedIndex].value == ''){
+      		 if(err=="")
+      		 err="User";
+      		 else
+      		 err=err+", User";
+      		 }
+      		 
+      		 if(psel.options[psel.selectedIndex].value == ''){
+      		 if(err=="")
+      		 err="Project";
+      		 else
+      		 err=err+", Project";
+      		 }
+      		 
+      		 var startDate = "startDate"+i;
+      		 var stdate = document.getElementById('dijit_form_DateTextBox_0');
+			if(stdate.value==''){
+			if(err=="")
+      		 err="Start Date";
+      		 else
+      		 err+=", Start Date";
+			}
+			
+			var eddate = document.getElementById('dijit_form_DateTextBox_1');
+			if(eddate.value==''){
+			if(err=="")
+      		 err="End Date";
+      		 else
+      		 err+=", End Date";
+			}
+			
+			if(parseInt((eddate.value).replace(/\//g,""),10) < parseInt((stdate.value).replace(/\//g,""),10)){
+   				if(err=="")
+      		 err="End Date  greater than Start Date";
+      		 else
+      		 err+=", End Date greater than Start Date";
+			}
+			
+      		 if(err != ""){
+      		 	document.getElementById(id).innerHTML = '<font color="RED"> Please select '+err+' .</font>';
+      		 	errorsExist = true;
+      		 	
+      		 }
+			}
+			
+			
+				if(errorsExist){
+					return false;
+				}else{
+					document.getElementById(id).innerHTML='';
+				}
+			}
+			
+	</script>
+</html>

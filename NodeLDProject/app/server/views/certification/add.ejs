@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<link rel="stylesheet" type="text/css" href="css/ldproj.css"/>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+	</head>
+	<body class="soria">
+		<form method="POST" action="/addcertification" id="myform">
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:90%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<br/>&nbsp;
+			<b>Add Certification</b>
+			<table style="width: 80%">
+				<tr>
+					<td align="left"> Certification Name * </td>
+					<td> <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, required:true" id="certificationname" name="certificationname" /> </td>
+					<td> <div id="certificationname_err"></div></td>
+				</tr>
+				<tr>
+					<td align="left" style="vertical-align: top"> Description * </td>
+					<td> <textarea id="certificationdesc" name="certificationdesc" rows="10" cols="50" data-dojo-type="dijit/form/Textarea" data-dojo-props="trim:true" style="width:400px; height: 100px"></textarea> </td>
+					<td id="certificationdesc_err" style="vertical-align: top"></td>
+				</tr>
+				<tr>
+					<td align="left"> Date * </td>
+					<td> <input type="text" name="certificationdate" id="certificationdate" value="" data-dojo-type="dijit/form/DateTextBox" 
+					data-dojo-props="trim:true" constraints="{datePattern:'yyyy-MM-dd'}" invalidMessage="Invalid date yyyy-MM-dd" promptMessage="yyyy-MM-dd"/> </td>
+					<td id="certificationdate_err"></td>
+				</tr>
+				<tr>
+					<td align="right"> <button data-dojo-type="dijit/form/Button" type="submit" name="submitbutton" id="submitbutton" value="Submit">Submit</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>
+			</table>
+		</form>		
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED"><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof certJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< certJson.length; i++){ %>
+						//alert('<%=certJson[i].id%>'+'-->'+'<%=certJson[i].value%>');
+						document.getElementById('<%=certJson[i].id%>').value='<%=certJson[i].value%>';
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+	</script>
+</html>

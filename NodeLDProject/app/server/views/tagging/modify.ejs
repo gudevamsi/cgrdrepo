@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+		<style type="text/css">
+		table{
+ 			margin:30px;   
+		}
+		td{
+    		padding: 4px;
+   		 }
+		</style>
+	</head>
+	<body class="soria">
+		<form method="POST" action="/modifyuserproject" dojoType="dijit.form.Form" id="myform">
+			<% if(typeof olduserProjJson != 'undefined') {%>
+				<input type="hidden" id="userprojid" name="userprojid" value="<%=olduserProjJson.userprojid%>"/>
+				<input type="hidden" id="old_projid" name="old_projid" value="<%=olduserProjJson.projid%>"/>
+				<input type="hidden" id="old_projroleid" name="old_projroleid" value="<%=olduserProjJson.role%>"/>
+				<input type="hidden" id="old_startdate" name="old_startdate" value="<%=olduserProjJson.startdate%>"/>
+				<input type="hidden" id="old_enddate" name="old_enddate" value="<%=olduserProjJson.enddate%>"/>
+				
+			<% } else { %>
+				<input type="hidden" id="userprojid" name="userprojid" value="<%=userproject.id%>"/>
+				<input type="hidden" id="old_projid" name="old_projid" value="<%=userproject.projectid%>"/>
+				<input type="hidden" id="old_projroleid" name="old_projroleid" value="<%=userproject.role%>"/>
+				<input type="hidden" id="old_startdate" name="old_startdate" value="<%=userproject.start_date%>"/>
+				<input type="hidden" id="old_enddate" name="old_enddate" value="<%=userproject.end_date%>"/>
+				
+			<% } %>
+			<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<div  style="line-height: 60px;height:65px;width:14%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: center;    margin-top: 5px;    margin-left: 5px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > Modify Tagging</div>
+			
+			<div style="line-height: 12px;height:12px;width:14%;font-size: 12px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;    margin-top: 5px;    margin-left: 15px;"  id="globalerror_err"></div>
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+				
+				<tr class="t1">
+					<td align="left"> Project * </td>
+					<td> <select id="projectId" name="projectId" width="100%" style="width: 100%"  ><option value="">--select--</option><% for(var i=0; i<projects.length; i++) {%><option value="<%=projects[i].projid%>" <%  if(typeof olduserProjJson != 'undefined') { if(projects[i].projid==olduserProjJson.projid) { %> selected <% }}else{if(projects[i].projid==userproject.projectid) { %> selected <% }} %>><%=projects[i].projname%></option><% } %></select></td> </td>
+					<td id="proj_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> Role * </td>
+					<td> <select id="projectRole" name="projectRole"   width="100%" style="width: 100%" ><% for(var i=0; i<roles.length; i++) {%><option value="<%= roles[i].projroleid%>" <%  if(typeof olduserProjJson != 'undefined') { if( roles[i].projroleid==olduserProjJson.role) { %> selected <% }}else{if( roles[i].projroleid==userproject.role) { %> selected <% }} %>> <%= roles[i].projrolename%></option><% } %></select></td>
+					<td id="projRole_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="left"> Start Date * </td>
+					<td> <input type="text" name="startdate" id="startdate" value="" data-dojo-type="dijit/form/DateTextBox"
+					data-dojo-props="trim:true" constraints="{datePattern:'yyyy-MM-dd'}" invalidMessage="Invalid date yyyy-MM-dd" promptMessage="yyyy-MM-dd"/> </td>
+					<td id="startdate_err"></td>
+				</tr>
+				<tr class="t2">
+					<td align="left"> End Date* </td>
+					<td> <input type="text" name="enddate" id="enddate" value="" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="trim:true"
+						constraints="{datePattern:'yyyy-MM-dd'}" invalidMessage="Invalid date yyyy-MM-dd" promptMessage="yyyy-MM-dd"/> 
+					</td>
+					<td id="enddate_err"></td>
+				</tr>
+				
+				<tr class="t1">
+					<td align="right"> <button data-dojo-type="dijit/form/Button" type="submit" id="submitbutton" name="submitbutton" value="Submit">Modify</button> </td>
+					<td align="left"> <button data-dojo-type="dijit/form/Button" type="reset">Reset</button> </td>
+				</tr>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+			<% if(typeof errorJson != 'undefined') {%>
+				function setErrors(){
+					<% for(var i=0;i< errorJson.length; i++){ %>
+						//alert('<%=errorJson[i].id%>'+'-->'+'<%=errorJson[i].value%>');
+						document.getElementById('<%=errorJson[i].id%>_err').innerHTML='<font color="RED"><%=errorJson[i].value%></font>';
+					<% } %>
+				}
+				setErrors();
+			<% } %>
+			<% if(typeof projJson != 'undefined') {%>
+				function restoreValues(){
+					<% for(var i=0;i< projJson.length; i++){ %>
+						if(dijit.byId('<%=projJson[i].id%>')!=null){
+							if('<%=projJson[i].value%>' != ''){
+								dijit.byId('<%=projJson[i].id%>').setAttribute('value', '<%=projJson[i].value%>');
+							}
+						}
+						else{
+							document.getElementById('<%=projJson[i].id%>').value='<%=projJson[i].value%>';
+						}
+					<% } %>
+				}
+				dojo.addOnLoad(restoreValues);
+			<% } %>
+			
+	</script>
+</html>

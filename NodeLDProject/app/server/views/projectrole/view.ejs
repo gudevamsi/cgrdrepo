@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<% include ../dojoinclude %>
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				dojo.parser.parse(document.getElementById('myform'));
+			});
+		</script>
+	<style type="text/css">
+		table{
+		font-size: 13px;
+ 		margin:30px;   
+		}
+		td{
+    	padding: 4px;
+   		 }
+	</style>
+	</head>
+	<body class="soria">
+		<form method="GET" action="" dojoType="dijit.form.Form" id="myform">
+		<div class="ElBox" style="opacity:0.40;locked:0;z-index:-1;border-width:1px;border-radius:20px;-o-border-radius:20px;-moz-border-radius:20px;-webkit-border-radius:20px;border-color:#888;border-style:solid;background-color:rgb(218, 234, 247);background-repeat:no-repeat;filter:alpha(opacity = 50);behavior: url(/css/PIE.htc);width:97%;height:98%;position:absolute;background-position:left top" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > </div>
+			<input type="hidden" id="projroleid" name="projroleid" value="<%=projectrole.projroleid%>"/>
+			<input type="hidden" id="action" name="action" value="<%=action%>"/>
+			<% if(typeof action != 'undefined') {%>
+				<% if(action == 'delete'){ %>
+					<div  style="line-height: 60px;height:65px;width:25%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: left;    margin-top: 5px;    margin-left: 10px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > Delete Project Role</div>
+				<% } else {%>
+					<div  style="line-height: 60px;height:65px;width:25%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: left;    margin-top: 5px;    margin-left: 10px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > View Project Role</div>
+				<% } %>
+			<% } else {%>
+				<div  style="line-height: 60px;height:65px;width:25%;align:center;font-size: 20px;font-weight:bold;font-style: normal;font-family: arial,helvetica,sans-serif;   text-align: left;    margin-top: 5px;    margin-left: 10px;" id="el53081_137aaeb2a398eb59cfe05fa6f1052fc9" > View Project Role</div>
+			<% } %>
+
+			<table style="margin:10px;  border-spacing: 2px;font-size: 10pt;font-family: arial,helvetica,sans-serif;">
+				<% if(typeof projectrole != 'undefined') {%>
+					<tr>
+						<td> Project Role name: </td>
+						<td> <%=projectrole.projrolename%> </td>
+					</tr>					
+					<tr>
+						<td> Description: </td>
+						<td> <%=projectrole.projroledesc%> </td>
+					</tr>
+					
+					<% if(typeof action != 'undefined') {%>
+						<tr>
+							<td colspan="2">
+								<% if(action != 'delete') { %>	
+									<button data-dojo-type="dijit/form/Button" type="button" id="modifybtn" name="modify" value="Modify" onclick="submitForm('<%=projectrole.projroleid%>','modify')">Modify</button>
+								<% } %>
+								<button data-dojo-type="dijit/form/Button" type="button" id="deletebtn" name="delete" value="Delete" onclick="submitForm('<%=projectrole.projroleid%>','delete')">Delete</button>
+							</td>
+						</tr>
+					<% } else{%>
+						<tr>
+							<td colspan="2">
+								<button data-dojo-type="dijit/form/Button" type="button" id="modifybtn" name="modify" value="Modify" onclick="submitForm('<%=projectrole.projroleid%>','modify')">Modify</button>
+								<button data-dojo-type="dijit/form/Button" type="button" id="deletebtn" name="delete" value="Delete" onclick="submitForm('<%=projectrole.projroleid%>','delete')">Delete</button>
+							</td>
+						</tr>
+					<% } %>
+					
+				<% } %>	
+			</table>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+		function submitForm(id, action){
+			document.getElementById('projroleid').value=id;
+			document.getElementById('action').value = action;
+			
+			if(action=='view'){
+				window.location.href = '/viewprojectrole?projroleid='+id+'&action='+action;
+			}
+			else if(action=='modify'){
+				window.location.href = '/modifyprojectrole?projroleid='+id+'&action='+action;
+			}
+			else if(action=='delete'){
+				if(window.confirm('Are you sure you want to delete the project?')){
+					window.location.href = '/deleteprojectrole?projroleid='+id+'&action='+action;
+				}
+				else{
+					return false;
+				}
+			}
+			return false;
+		}
+	</script>
+</html>
